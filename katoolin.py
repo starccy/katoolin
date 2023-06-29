@@ -4,6 +4,9 @@ import os
 import sys, traceback
 
 
+KALI_KEY = "ED444FF07D8D0BF6"
+
+
 if os.getuid() != 0:
 	print("Sorry. This script requires sudo privledges")
 	sys.exit()
@@ -50,7 +53,7 @@ def main():
 					''')
 					repo = input("\033[1;32mWhat do you want to do ?> \033[1;m")
 					if repo == "1":
-						cmd1 = os.system("apt-key adv --keyserver keys.openpgp.org --recv-keys ED444FF07D8D0BF6")
+						cmd1 = os.system(f"gpg --keyserver keys.openpgp.org --recv-keys {KALI_KEY} && gpg --export {KALI_KEY} > /etc/apt/trusted.gpg.d/kali-katoolin-keyring.gpg && gpg --batch --yes --delete-keys {KALI_KEY}")
 						cmd2 = os.system("echo '# Kali linux repositories | Added by Katoolin\ndeb http://http.kali.org/kali kali-rolling main contrib non-free' >> /etc/apt/sources.list")
 					elif repo == "2":
 						cmd3 = os.system("apt-get update -m")
